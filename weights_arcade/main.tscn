@@ -1,0 +1,357 @@
+[gd_scene load_steps=32 format=3 uid="uid://2c88ddr76ytu"]
+
+[ext_resource type="Script" path="res://weights_arcade/main.gd" id="1_xsokq"]
+[ext_resource type="Script" path="res://weights_arcade/scale.gd" id="2_n5420"]
+[ext_resource type="Script" path="res://weights_arcade/bg.gd" id="2_q0kgu"]
+[ext_resource type="Script" path="res://weights_arcade/scroll_field.gd" id="2_yxayf"]
+[ext_resource type="Texture2D" uid="uid://ca3ubhxtx3lg" path="res://weights_arcade/img/bg.png" id="3_16h3v"]
+[ext_resource type="Script" path="res://weights_arcade/cup.gd" id="3_grdt8"]
+[ext_resource type="Shader" path="res://weights_arcade/bg.gdshader" id="3_sdva0"]
+[ext_resource type="Script" path="res://weights_arcade/cup_selecter.gd" id="4_mbou8"]
+[ext_resource type="Texture2D" uid="uid://bd0nw02gqo155" path="res://weights_arcade/img/scale_stem.png" id="7_hgy0w"]
+[ext_resource type="Texture2D" uid="uid://ql2n70yyjxlm" path="res://weights_arcade/img/scale_handle.png" id="7_r5c5o"]
+[ext_resource type="Script" path="res://weights_arcade/ui.gd" id="7_tlkhx"]
+[ext_resource type="AudioStream" uid="uid://ck0ainng68r2x" path="res://weights_arcade/snd/rumble.wav" id="9_d3t2f"]
+[ext_resource type="PackedScene" uid="uid://panq6gvepvle" path="res://weights_arcade/cursor.tscn" id="9_ig2o3"]
+[ext_resource type="Texture2D" uid="uid://cce5ide64c21f" path="res://weights_arcade/img/scale_plat.png" id="10_n7co0"]
+[ext_resource type="AudioStream" uid="uid://j4dik0qmw0cp" path="res://weights_arcade/snd/explode.wav" id="11_4tkde"]
+[ext_resource type="Script" path="res://weights_arcade/press_start.gd" id="13_5vakg"]
+[ext_resource type="AudioStream" uid="uid://7bj203nnjd5u" path="res://weights_arcade/snd/tick.wav" id="13_aexq6"]
+[ext_resource type="AudioStream" uid="uid://c511m3acyr67w" path="res://weights_arcade/snd/tick2.wav" id="13_hk2ct"]
+[ext_resource type="AudioStream" uid="uid://8grkq7kuttb8" path="res://weights_arcade/snd/bgm.ogg" id="15_cm2kt"]
+[ext_resource type="Script" path="res://weights_arcade/game_timer.gd" id="15_tmqj2"]
+[ext_resource type="Script" path="res://weights_arcade/bgm_player.gd" id="16_600ys"]
+[ext_resource type="Script" path="res://weights_arcade/weight_palette.gd" id="16_liwi5"]
+[ext_resource type="Texture2D" uid="uid://ckld3tsvcentc" path="res://weights_arcade/img/palette.png" id="18_bscp7"]
+[ext_resource type="Texture2D" uid="uid://67p7k4qlldpg" path="res://weights_arcade/img/press_start.png" id="19_r6vcw"]
+[ext_resource type="Script" path="res://weights_arcade/big_goal_weight.gd" id="21_nhhjj"]
+[ext_resource type="Texture2D" uid="uid://ptj62ttpmyl8" path="res://weights_arcade/img/good.png" id="22_xlmdg"]
+[ext_resource type="Texture2D" uid="uid://bpob3sd4og6l3" path="res://weights_arcade/img/bad.png" id="23_78uy5"]
+[ext_resource type="AudioStream" uid="uid://c18ggds4l5gq7" path="res://weights_arcade/snd/good.wav" id="26_8tpns"]
+[ext_resource type="AudioStream" uid="uid://c4q2hv8qd8836" path="res://weights_arcade/snd/bad.wav" id="27_beiou"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5bosm"]
+shader = ExtResource("3_sdva0")
+shader_parameter/color1 = null
+shader_parameter/color2 = null
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3syiu"]
+size = Vector2(224, 8)
+
+[node name="main" type="Node2D"]
+script = ExtResource("1_xsokq")
+
+[node name="bg" type="Node2D" parent="."]
+script = ExtResource("2_q0kgu")
+
+[node name="back" type="TextureRect" parent="bg"]
+material = SubResource("ShaderMaterial_5bosm")
+offset_top = -32.0
+offset_right = 640.0
+offset_bottom = 512.0
+texture = ExtResource("3_16h3v")
+stretch_mode = 1
+
+[node name="scroll_field" type="Node2D" parent="."]
+z_index = 256
+position = Vector2(320, 240)
+script = ExtResource("2_yxayf")
+
+[node name="scale" type="Node2D" parent="scroll_field"]
+z_as_relative = false
+position = Vector2(0, 132)
+script = ExtResource("2_n5420")
+metadata/_edit_group_ = true
+
+[node name="stem" type="Node2D" parent="scroll_field/scale"]
+metadata/_edit_group_ = true
+
+[node name="sprite_2d" type="Sprite2D" parent="scroll_field/scale/stem"]
+scale = Vector2(0.197, 0.223)
+texture = ExtResource("7_hgy0w")
+offset = Vector2(0, -714)
+
+[node name="handle" type="Node2D" parent="scroll_field/scale"]
+position = Vector2(0, -320)
+metadata/_edit_group_ = true
+
+[node name="sprite_2d" type="Sprite2D" parent="scroll_field/scale/handle"]
+scale = Vector2(0.246, 0.413)
+texture = ExtResource("7_r5c5o")
+offset = Vector2(0, -7.734)
+
+[node name="left" type="Marker2D" parent="scroll_field/scale/handle"]
+position = Vector2(-192, 0)
+
+[node name="right" type="Marker2D" parent="scroll_field/scale/handle"]
+position = Vector2(192, 0)
+
+[node name="cup_left" type="StaticBody2D" parent="scroll_field/scale"]
+position = Vector2(-192, -320)
+collision_mask = 0
+script = ExtResource("3_grdt8")
+positionSequence = [NodePath("position3"), NodePath("position2"), NodePath("position4"), NodePath("position1")]
+
+[node name="platform" type="Polygon2D" parent="scroll_field/scale/cup_left"]
+visible = false
+position = Vector2(0, 256)
+polygon = PackedVector2Array(-112, 0, 112, 0, 112, 8, -112, 8)
+
+[node name="chain" type="Line2D" parent="scroll_field/scale/cup_left"]
+points = PackedVector2Array(-96, 256, 0, 0, 96, 256)
+width = 1.0
+default_color = Color(1, 0.854902, 0.419608, 1)
+
+[node name="coll_shape" type="CollisionShape2D" parent="scroll_field/scale/cup_left"]
+position = Vector2(0, 260)
+shape = SubResource("RectangleShape2D_3syiu")
+disabled = true
+
+[node name="position1" type="Marker2D" parent="scroll_field/scale/cup_left"]
+position = Vector2(-72, 256)
+
+[node name="position2" type="Marker2D" parent="scroll_field/scale/cup_left"]
+position = Vector2(-24, 256)
+
+[node name="position3" type="Marker2D" parent="scroll_field/scale/cup_left"]
+position = Vector2(24, 256)
+
+[node name="position4" type="Marker2D" parent="scroll_field/scale/cup_left"]
+position = Vector2(72, 256)
+
+[node name="sprite_2d" type="Sprite2D" parent="scroll_field/scale/cup_left"]
+position = Vector2(0, 256)
+scale = Vector2(0.255, 0.365)
+texture = ExtResource("10_n7co0")
+offset = Vector2(0, 8)
+
+[node name="cup_right" type="StaticBody2D" parent="scroll_field/scale"]
+position = Vector2(192, -320)
+collision_mask = 0
+script = ExtResource("3_grdt8")
+positionSequence = [NodePath("position2"), NodePath("position3"), NodePath("position1"), NodePath("position4")]
+metadata/_edit_group_ = true
+
+[node name="platform" type="Polygon2D" parent="scroll_field/scale/cup_right"]
+visible = false
+position = Vector2(0, 256)
+polygon = PackedVector2Array(-112, 0, 112, 0, 112, 8, -112, 8)
+
+[node name="chain" type="Line2D" parent="scroll_field/scale/cup_right"]
+points = PackedVector2Array(-96, 256, 0, 0, 96, 256)
+width = 1.0
+default_color = Color(1, 0.854902, 0.419608, 1)
+
+[node name="coll_shape" type="CollisionShape2D" parent="scroll_field/scale/cup_right"]
+position = Vector2(0, 260)
+shape = SubResource("RectangleShape2D_3syiu")
+disabled = true
+
+[node name="position1" type="Marker2D" parent="scroll_field/scale/cup_right"]
+position = Vector2(-72, 256)
+
+[node name="position2" type="Marker2D" parent="scroll_field/scale/cup_right"]
+position = Vector2(-24, 256)
+
+[node name="position3" type="Marker2D" parent="scroll_field/scale/cup_right"]
+position = Vector2(24, 256)
+
+[node name="position4" type="Marker2D" parent="scroll_field/scale/cup_right"]
+position = Vector2(72, 256)
+
+[node name="sprite_2d" type="Sprite2D" parent="scroll_field/scale/cup_right"]
+position = Vector2(0, 256)
+scale = Vector2(0.255, 0.365)
+texture = ExtResource("10_n7co0")
+offset = Vector2(0, 8)
+
+[node name="cup_selecter" type="Node2D" parent="scroll_field/scale" node_paths=PackedStringArray("leftCup", "rightCup")]
+script = ExtResource("4_mbou8")
+leftCup = NodePath("../cup_left")
+rightCup = NodePath("../cup_right")
+
+[node name="cursor" parent="scroll_field/scale/cup_selecter" instance=ExtResource("9_ig2o3")]
+visible = false
+z_index = 256
+z_as_relative = false
+
+[node name="tick_sndplayer" type="AudioStreamPlayer" parent="scroll_field/scale/cup_selecter"]
+stream = ExtResource("13_hk2ct")
+volume_db = -8.0
+
+[node name="rumble_sndplayer" type="AudioStreamPlayer" parent="scroll_field/scale"]
+stream = ExtResource("9_d3t2f")
+volume_db = -80.0
+pitch_scale = 0.77
+autoplay = true
+bus = &"sfx"
+
+[node name="explode_sndplayer" type="AudioStreamPlayer" parent="scroll_field/scale"]
+stream = ExtResource("11_4tkde")
+volume_db = -7.5
+bus = &"sfx"
+
+[node name="ui" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 480.0
+script = ExtResource("7_tlkhx")
+metadata/_edit_lock_ = true
+
+[node name="weight_palette" type="Node2D" parent="ui"]
+position = Vector2(320, 448)
+script = ExtResource("16_liwi5")
+metadata/_edit_group_ = true
+
+[node name="color_rect" type="ColorRect" parent="ui/weight_palette"]
+visible = false
+offset_left = -288.0
+offset_top = -32.0
+offset_right = 288.0
+offset_bottom = 32.0
+color = Color(0.439216, 0.243137, 0.14902, 1)
+
+[node name="cursor" parent="ui/weight_palette" instance=ExtResource("9_ig2o3")]
+visible = false
+z_index = 256
+rotation = -1.5708
+
+[node name="sprite_2d" type="Sprite2D" parent="ui/weight_palette"]
+texture = ExtResource("18_bscp7")
+
+[node name="tick_sndplayer" type="AudioStreamPlayer" parent="ui/weight_palette"]
+stream = ExtResource("13_aexq6")
+volume_db = -6.0
+
+[node name="game_timer" type="Label" parent="ui"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 16.0
+offset_right = 20.0
+offset_bottom = 39.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.929412, 0.223529, 0.223529, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 24
+text = "adf"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("15_tmqj2")
+
+[node name="goal_weight" type="Label" parent="ui"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 56.0
+offset_bottom = 39.0
+vertical_alignment = 1
+
+[node name="level" type="Label" parent="ui"]
+layout_mode = 1
+offset_left = 16.0
+offset_top = 40.0
+offset_right = 56.0
+offset_bottom = 63.0
+text = "Level: 1"
+vertical_alignment = 1
+
+[node name="press_start" type="Sprite2D" parent="ui"]
+position = Vector2(320, 240)
+scale = Vector2(2, 2)
+texture = ExtResource("19_r6vcw")
+script = ExtResource("13_5vakg")
+
+[node name="big_goal_weight" type="Label" parent="ui"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 128
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("21_nhhjj")
+
+[node name="good" type="Sprite2D" parent="ui"]
+visible = false
+position = Vector2(320, 240)
+scale = Vector2(10, 10)
+texture = ExtResource("22_xlmdg")
+
+[node name="bad" type="Sprite2D" parent="ui"]
+visible = false
+position = Vector2(320, 240)
+scale = Vector2(10, 10)
+texture = ExtResource("23_78uy5")
+
+[node name="lives" type="Label" parent="ui"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -58.0
+offset_top = 16.0
+offset_right = -18.0
+offset_bottom = 39.0
+grow_horizontal = 0
+text = "Lives: 3"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="hiscore" type="Label" parent="ui"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 69.0
+offset_right = 111.0
+offset_bottom = 95.0
+text = "Hiscore: 314"
+vertical_alignment = 1
+
+[node name="fade_rect" type="ColorRect" parent="."]
+offset_right = 640.0
+offset_bottom = 480.0
+color = Color(0, 0, 0, 1)
+
+[node name="left_place_sndplayer" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(64, 240)
+volume_db = -3.0
+bus = &"sfx"
+
+[node name="right_place_sndplayer" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(576, 240)
+volume_db = -3.0
+bus = &"sfx"
+
+[node name="bgm_player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("15_cm2kt")
+volume_db = -14.0
+pitch_scale = 0.95
+script = ExtResource("16_600ys")
+
+[node name="good_sndplayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("26_8tpns")
+volume_db = -8.0
+
+[node name="bad_sndplayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("27_beiou")
+volume_db = -8.0
+
+[connection signal="cup_selected" from="scroll_field/scale/cup_selecter" to="." method="_on_cup_selecter_cup_selected"]
+[connection signal="weight_deselected" from="scroll_field/scale/cup_selecter" to="." method="_on_cup_selecter_weight_deselected"]
+[connection signal="unplace_weight" from="ui/weight_palette" to="." method="_on_weight_palette_unplace_weight"]
+[connection signal="weight_selected" from="ui/weight_palette" to="." method="_on_weight_palette_weight_selected"]
+[connection signal="out_of_time" from="ui/game_timer" to="." method="_on_game_timer_out_of_time"]
