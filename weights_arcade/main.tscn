@@ -177,7 +177,7 @@ z_as_relative = false
 
 [node name="tick_sndplayer" type="AudioStreamPlayer" parent="scroll_field/scale/cup_selecter"]
 stream = ExtResource("13_hk2ct")
-volume_db = -8.0
+volume_db = -6.0
 
 [node name="rumble_sndplayer" type="AudioStreamPlayer" parent="scroll_field/scale"]
 stream = ExtResource("9_d3t2f")
@@ -222,7 +222,7 @@ texture = ExtResource("18_bscp7")
 
 [node name="tick_sndplayer" type="AudioStreamPlayer" parent="ui/weight_palette"]
 stream = ExtResource("13_aexq6")
-volume_db = -6.0
+volume_db = -4.0
 
 [node name="game_timer" type="Label" parent="ui"]
 layout_mode = 1
@@ -328,27 +328,27 @@ color = Color(0, 0, 0, 1)
 
 [node name="left_place_sndplayer" type="AudioStreamPlayer2D" parent="."]
 position = Vector2(64, 240)
-volume_db = -3.0
+volume_db = -2.0
 bus = &"sfx"
 
 [node name="right_place_sndplayer" type="AudioStreamPlayer2D" parent="."]
 position = Vector2(576, 240)
-volume_db = -3.0
+volume_db = -2.0
 bus = &"sfx"
 
 [node name="bgm_player" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("15_cm2kt")
-volume_db = -14.0
+volume_db = -11.0
 pitch_scale = 0.95
 script = ExtResource("16_600ys")
 
 [node name="good_sndplayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("26_8tpns")
-volume_db = -8.0
+volume_db = -6.0
 
 [node name="bad_sndplayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("27_beiou")
-volume_db = -8.0
+volume_db = -6.0
 
 [connection signal="cup_selected" from="scroll_field/scale/cup_selecter" to="." method="_on_cup_selecter_cup_selected"]
 [connection signal="weight_deselected" from="scroll_field/scale/cup_selecter" to="." method="_on_cup_selecter_weight_deselected"]
